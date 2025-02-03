@@ -7,6 +7,8 @@ interface WalletContextType {
   setMnemonicConfirmed: (confirmed: boolean) => void;
   walletType: "solana" | "ethereum" | null;
   setWalletType: (type: "solana" | "ethereum" | null) => void;
+  currentMnemonic: string;
+  setCurrentMnemonic: (mnemonic: string) => void;
 }
 
 const WalletContext = createContext<WalletContextType | undefined>(undefined);
@@ -17,6 +19,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   const [walletType, setWalletType] = React.useState<
     "solana" | "ethereum" | null
   >(null);
+  const [currentMnemonic, setCurrentMnemonic] = useState("");
   return (
     <WalletContext.Provider
       value={{
@@ -26,6 +29,8 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         setMnemonicConfirmed,
         walletType,
         setWalletType,
+        currentMnemonic,
+        setCurrentMnemonic,
       }}
     >
       {children}

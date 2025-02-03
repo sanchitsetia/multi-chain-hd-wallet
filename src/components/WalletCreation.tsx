@@ -8,18 +8,15 @@ import { Card } from "./ui/card";
 import { useToast } from "../hooks/use-toast";
 import { generateMnemonic } from "bip39";
 
-const SAMPLE_MNEMONIC =
-  "witch collapse practice feed shame open despair creek road again ice least";
-
 export function WalletCreation() {
-  const { setMnemonicConfirmed } = useWallet();
+  const { setMnemonicConfirmed, currentMnemonic, setCurrentMnemonic } =
+    useWallet();
   const [showMnemonic, setShowMnemonic] = useState(false);
   const [copied, setCopied] = useState(false);
   const { toast } = useToast();
-  const [currentMnemonic, setCurrentMnemonic] = useState("");
 
   const handleCopyMnemonic = () => {
-    navigator.clipboard.writeText(SAMPLE_MNEMONIC);
+    navigator.clipboard.writeText(currentMnemonic);
     setCopied(true);
     toast({
       title: "Mnemonic phrase copied!",
@@ -29,7 +26,6 @@ export function WalletCreation() {
 
   const newSeedPhase = () => {
     const mn = generateMnemonic();
-    console.log(mn);
     setCurrentMnemonic(mn);
     setShowMnemonic(true);
   };
@@ -66,7 +62,7 @@ export function WalletCreation() {
             <div className="space-y-4">
               <div className="p-4 bg-secondary rounded-lg">
                 <div className="grid grid-cols-3 gap-2">
-                  {SAMPLE_MNEMONIC.split(" ").map((word, index) => (
+                  {currentMnemonic.split(" ").map((word, index) => (
                     <div key={index} className="text-sm p-2 bg-card rounded">
                       <span className="text-muted">{index + 1}.</span> {word}
                     </div>
