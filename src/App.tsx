@@ -1,27 +1,28 @@
-import "./App.css";
-import { WalletCreation } from "./components/WalletCreation";
-import { WalletTypeSelection } from "./components/WalletTypeSelection";
-import { WalletDashboard } from "./components/WalletDashboard";
-import { useWallet, WalletProvider } from "./contexts/WalletContext";
+import { Toaster as Sonner } from "./components/ui/sonner";
 
-function WalletApp() {
-  const { mnemonicConfirmed, walletType } = useWallet();
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import NotFound from "./pages/NotFound";
+import Index from "./pages/Index";
+import { TooltipProvider } from "./components/ui/tooltip";
+import { Toaster } from "./components/ui/toaster";
 
-  return (
-    <div className="min-h-screen bg-secondary p-4 flex items-center justify-center">
-      {!mnemonicConfirmed && <WalletCreation />}
-      {mnemonicConfirmed && !walletType && <WalletTypeSelection />}
-      {mnemonicConfirmed && walletType && <WalletDashboard />}
-    </div>
-  );
-}
+const queryClient = new QueryClient();
 
-function App() {
-  return (
-    <WalletProvider>
-      <WalletApp />
-    </WalletProvider>
-  );
-}
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <TooltipProvider>
+      <Toaster />
+      <Sonner />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Index />} />
+          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </TooltipProvider>
+  </QueryClientProvider>
+);
 
 export default App;

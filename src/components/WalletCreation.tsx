@@ -6,6 +6,7 @@ import { useWallet } from "../contexts/WalletContext";
 import { Button } from "./ui/button";
 import { Card } from "./ui/card";
 import { useToast } from "../hooks/use-toast";
+import { generateMnemonic } from "bip39";
 
 const SAMPLE_MNEMONIC =
   "witch collapse practice feed shame open despair creek road again ice least";
@@ -15,6 +16,7 @@ export function WalletCreation() {
   const [showMnemonic, setShowMnemonic] = useState(false);
   const [copied, setCopied] = useState(false);
   const { toast } = useToast();
+  const [currentMnemonic, setCurrentMnemonic] = useState("");
 
   const handleCopyMnemonic = () => {
     navigator.clipboard.writeText(SAMPLE_MNEMONIC);
@@ -23,6 +25,13 @@ export function WalletCreation() {
       title: "Mnemonic phrase copied!",
       description: "Please store it in a safe place.",
     });
+  };
+
+  const newSeedPhase = () => {
+    const mn = generateMnemonic();
+    console.log(mn);
+    setCurrentMnemonic(mn);
+    setShowMnemonic(true);
   };
 
   const handleConfirm = () => {
@@ -50,8 +59,8 @@ export function WalletCreation() {
           </p>
 
           {!showMnemonic ? (
-            <Button className="w-full" onClick={() => setShowMnemonic(true)}>
-              Show Recovery Phrase
+            <Button className="w-full" onClick={newSeedPhase}>
+              Create New Seed Phrase
             </Button>
           ) : (
             <div className="space-y-4">
