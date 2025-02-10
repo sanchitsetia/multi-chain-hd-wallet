@@ -3,6 +3,14 @@ import { useWallet } from "../contexts/WalletContext";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
+
 const SAMPLE_DATA = {
   ethereum: {
     balance: "1.245",
@@ -17,7 +25,7 @@ const SAMPLE_DATA = {
 };
 
 export function WalletDashboard() {
-  const { walletType } = useWallet();
+  const { walletType, setWalletType } = useWallet();
   const data = walletType ? SAMPLE_DATA[walletType] : null;
 
   if (!data) return null;
@@ -35,6 +43,19 @@ export function WalletDashboard() {
           <Button variant="ghost" size="icon">
             <Settings className="w-5 h-5" />
           </Button>
+        </div>
+
+        <div className="mb-4">
+          <Select>
+            <SelectTrigger>
+              <SelectValue placeholder="Select Wallet" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="light">Light</SelectItem>
+              <SelectItem value="dark">Dark</SelectItem>
+              <SelectItem value="system">System</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
         <div className="space-y-6">
